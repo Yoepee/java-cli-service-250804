@@ -1,0 +1,1 @@
+rootProject.name = "cli-service-250804"
