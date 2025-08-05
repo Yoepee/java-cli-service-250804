@@ -10,4 +10,13 @@ public class Article {
     String title;
     String content;
     String regDate;
+
+    public Article(String title, String content) {
+        this.title = title;
+        this.content = content;
+    }
+
+    public boolean isNew() {
+        return id == 0;
+    }
 }

@@ -1,5 +1,6 @@
 package com.object;
 
+import com.object.domain.article.controller.ArticleController;
 import com.object.domain.system.controller.SystemController;
 
 import java.util.Scanner;
@@ -7,24 +8,26 @@ import java.util.Scanner;
 public class App {
     private Scanner scanner;
     private SystemController systemController;
+    private ArticleController articleController;
     App(){
         systemController = AppContext.systemController;
+        articleController = AppContext.articleController;
     }
     public void run() {
-        System.out.println("App is running!");
         systemController.start();
         while(true) {
             Rq rq = systemController.getCommand();
-            String cmd = rq.getActionName();
+            String actionName = rq.getActionName();
 
-            if (cmd.equals("exit")) {
-                System.out.println("종료");
-                break;
+            switch (actionName) {
+                case "exit" -> {
+                    systemController.stop();
+                    return;
+                }
+                case "write" -> articleController.writeArticle();
+                case "list" -> articleController.listArticles(rq);
+                case "delete" -> articleController.deleteArticle(rq);
             }
-
-            // 여기에 명령어 처리 로직을 추가할 수 있습니다.
-            System.out.println("명령어: " + cmd);
         }
-        systemController.stop();
     }
 }

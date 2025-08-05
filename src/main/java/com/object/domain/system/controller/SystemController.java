@@ -11,10 +11,11 @@ public class SystemController {
         this.scanner = AppContext.scanner;
     }
     public void start(){
-        System.out.println("시작");
+        System.out.println("프로그램을 시작합니다.");
     }
 
     public void stop(){
+        System.out.println("프로그램을 종료합니다.");
         scanner.close();
     }
 

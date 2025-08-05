@@ -2,7 +2,7 @@ package com.object.standard.util;
 
 public class TestUtil {
     public static java.util.Scanner genScanner(String input) {
-        return new java.util.Scanner(input);
+        return new java.util.Scanner(input+ "\nexit");
     }
 
     public static java.io.ByteArrayOutputStream setOutToByteArray() {

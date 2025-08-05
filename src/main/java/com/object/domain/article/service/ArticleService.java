@@ -1,0 +1,36 @@
+package com.object.domain.article.service;
+
+import com.object.AppContext;
+import com.object.domain.article.entity.Article;
+import com.object.domain.article.repository.ArticleRepository;
+
+import java.util.List;
+
+public class ArticleService {
+    private ArticleRepository repository;
+
+    public ArticleService() {
+        this.repository = AppContext.articleRepository;
+    }
+
+    public Article writeArticle(String title, String content) {
+        Article article = new Article(title, content);
+        repository.saveArticle(article);
+        return article;
+    }
+
+    public boolean deleteArticle(int id) {
+        Article article = repository.getArticleById(id);
+        if (article == null) return false;
+        repository.deleteArticle(article);
+        return true;
+    }
+
+    public Article getArticleById(int id) {
+        return repository.getArticleById(id);
+    }
+
+    public List<Article> getArticles(String keyword) {
+        return repository.getArticles(keyword);
+    }
+}
