@@ -15,10 +15,9 @@ public class AppContext {
     public static ArticleController articleController;
     public static SystemController systemController;
 
-    public static void renew(Scanner sc, String fp) {
-        scanner = sc;
-        filePath = fp;
-
+    public static void renew(Scanner _scanner, String _filePath) {
+        scanner = _scanner;
+        filePath = _filePath;
 
         articleRepository = new ArticleRepository();
         articleService = new ArticleService();
