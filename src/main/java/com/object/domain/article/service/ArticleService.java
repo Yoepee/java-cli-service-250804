@@ -4,6 +4,7 @@ import com.object.AppContext;
 import com.object.domain.article.entity.Article;
 import com.object.domain.article.repository.ArticleRepository;
 
+import java.io.IOException;
 import java.util.List;
 
 public class ArticleService {
@@ -19,6 +20,12 @@ public class ArticleService {
         return article;
     }
 
+    public Article update(Article article, String title, String content) {
+        article.setTitle(title);
+        article.setContent(content);
+        return repository.saveArticle(article);
+    }
+
     public boolean deleteArticle(int id) {
         Article article = repository.getArticleById(id);
         if (article == null) return false;
@@ -26,11 +33,19 @@ public class ArticleService {
         return true;
     }
 
-    public Article getArticleById(int id) {
+    public Article findById(int id) {
         return repository.getArticleById(id);
     }
 
     public List<Article> getArticles(String keyword) {
         return repository.getArticles(keyword);
+    }
+
+    public void save() throws IOException {
+        repository.save();
+    }
+
+    public void load() throws IOException {
+        repository.load();
     }
 }

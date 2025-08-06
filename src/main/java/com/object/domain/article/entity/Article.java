@@ -10,6 +10,7 @@ public class Article {
     String title;
     String content;
     String regDate;
+    int viewCount = 0;
 
     public Article(String title, String content) {
         this.title = title;

@@ -15,6 +15,9 @@ public class App {
     }
     public void run() {
         systemController.start();
+        //초기 데이터 로드
+        articleController.loadArticlesAndLastId();
+
         while(true) {
             Rq rq = systemController.getCommand();
             String actionName = rq.getActionName();
@@ -24,9 +27,12 @@ public class App {
                     systemController.stop();
                     return;
                 }
+                case "save" -> articleController.saveArticles();
                 case "write" -> articleController.writeArticle();
+                case "update" -> articleController.updateArticle(rq);
                 case "list" -> articleController.listArticles(rq);
                 case "delete" -> articleController.deleteArticle(rq);
+                case "detail" -> articleController.showDetail(rq);
             }
         }
     }

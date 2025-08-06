@@ -9,20 +9,24 @@ import java.util.Scanner;
 
 public class AppContext {
     public static Scanner scanner;
+    public static String filePath;
     public static ArticleRepository articleRepository;
     public static ArticleService articleService;
     public static ArticleController articleController;
     public static SystemController systemController;
 
-    public static void init(Scanner _scanner) {
-        scanner = _scanner;
+    public static void renew(Scanner sc, String fp) {
+        scanner = sc;
+        filePath = fp;
+
+
         articleRepository = new ArticleRepository();
         articleService = new ArticleService();
         articleController = new ArticleController();
         systemController = new SystemController();
     }
 
-    public static void init() {
-        init(new Scanner(System.in));
+    public static void renew() {
+        renew(new Scanner(System.in), "db/articles.json");
     }
 }
