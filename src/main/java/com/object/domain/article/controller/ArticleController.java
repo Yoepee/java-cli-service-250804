@@ -10,8 +10,8 @@ import java.util.List;
 import java.util.Scanner;
 
 public class ArticleController {
-    private Scanner scanner;
-    private ArticleService articleService;
+    private final Scanner scanner;
+    private final ArticleService articleService;
     public ArticleController() {
         scanner = AppContext.scanner;
         this.articleService = AppContext.articleService;
@@ -25,17 +25,17 @@ public class ArticleController {
         String content = scanner.nextLine();
 
         if (title.isEmpty()) {
-            System.out.println("=> !!!제목을 입력해 주세요!!!\n");
+            printMessage("!!!제목을 입력해 주세요!!!");
             return;
         }
 
         if (content.isEmpty()) {
-            System.out.println("=> !!!내용을 입력해 주세요!!!\n");
+            printMessage("!!!내용을 입력해 주세요!!!");
             return;
         }
 
         articleService.writeArticle(title, content);
-        System.out.println("=> 게시글이 등록되었습니다.\n");
+        printMessage("게시글이 등록되었습니다.");
     }
 
     public void updateArticle(Rq rq) {
@@ -81,14 +81,10 @@ public class ArticleController {
 
     public void listArticles(Rq rq) {
         String keyword = rq.getParam(0, "");
-        if (keyword.isEmpty()) {
-            System.out.println("검색 키워드를 입력해주세요.");
-            return;
-        }
 
         List<Article> articles = articleService.getArticles(keyword);
         if (articles.isEmpty()) {
-            System.out.println("검색 결과가 없습니다.");
+            printMessage("검색 결과가 없습니다.");
             return;
         }
 
@@ -96,7 +92,7 @@ public class ArticleController {
         System.out.println("-------------------------");
         for (int i = articles.size() - 1; i >= 0; i--) {
             Article article = articles.get(i);
-            System.out.printf("%d | %s | %s%n", article.getId(), article.getTitle(), article.getRegDate());
+            System.out.printf("%d | %s | %s \n", article.getId(), article.getTitle(), article.getRegDate());
         }
         System.out.println();
     }
@@ -104,13 +100,13 @@ public class ArticleController {
     public void showDetail(Rq rq) {
         int id = rq.getParamAsInt(0, -1);
         if (id == -1) {
-            System.out.println("유효하지 않은 id 입니다.");
+            printMessage("유효하지 않은 id 입니다.");
             return;
         }
 
         Article articleEntity = articleService.findById(id);
         if (articleEntity == null) {
-            System.out.println("해당 게시글이 존재하지 않습니다.");
+            printMessage("해당 게시글이 존재하지 않습니다.");
             return;
         }
 
@@ -118,6 +114,7 @@ public class ArticleController {
         System.out.println("제목: " + articleEntity.getTitle());
         System.out.println("내용: " + articleEntity.getContent());
         System.out.println("등록일: " + articleEntity.getRegDate());
+        System.out.println("조회수: " + articleEntity.getViewCount());
     }
 
     public void saveArticles() {

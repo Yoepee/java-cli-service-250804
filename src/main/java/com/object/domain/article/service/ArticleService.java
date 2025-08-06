@@ -8,22 +8,21 @@ import java.io.IOException;
 import java.util.List;
 
 public class ArticleService {
-    private ArticleRepository repository;
+    private final ArticleRepository repository;
 
     public ArticleService() {
         this.repository = AppContext.articleRepository;
     }
 
-    public Article writeArticle(String title, String content) {
+    public void writeArticle(String title, String content) {
         Article article = new Article(title, content);
         repository.saveArticle(article);
-        return article;
     }
 
-    public Article update(Article article, String title, String content) {
+    public void update(Article article, String title, String content) {
         article.setTitle(title);
         article.setContent(content);
-        return repository.saveArticle(article);
+        repository.saveArticle(article);
     }
 
     public boolean deleteArticle(int id) {

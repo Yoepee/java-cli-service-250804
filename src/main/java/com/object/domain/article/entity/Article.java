@@ -1,10 +1,13 @@
 package com.object.domain.article.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
+@NoArgsConstructor
 public class Article {
     int id;
     String title;
@@ -17,6 +20,7 @@ public class Article {
         this.content = content;
     }
 
+    @JsonIgnore
     public boolean isNew() {
         return id == 0;
     }
