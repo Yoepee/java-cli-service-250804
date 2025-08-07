@@ -254,6 +254,7 @@ public class ArticleControllerTest {
         AssertionsForClassTypes.assertThat(file.exists()).isTrue();
         AssertionsForClassTypes.assertThat(file.length()).isGreaterThan(0);
 
+
         // 파일 내부 내용 검증
         ObjectMapper objectMapper = new ObjectMapper();
         List<Article> articles = objectMapper.readValue(file, new TypeReference<>() {});
