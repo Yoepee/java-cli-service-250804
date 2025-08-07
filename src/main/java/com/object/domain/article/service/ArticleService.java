@@ -21,7 +21,7 @@ public class ArticleService {
         return article;
     }
 
-    public Article update(Article article, String title, String content) {
+    public Article updateArticle(Article article, String title, String content) {
         article.setTitle(title);
         article.setContent(content);
         return repository.saveArticle(article);

@@ -58,7 +58,7 @@ public class ArticleController {
         System.out.printf("내용 (현재: %s): ", targetArticle.getContent());
         String newContent = scanner.nextLine().trim();
 
-        articleService.update(targetArticle, newTitle, newContent);
+        articleService.updateArticle(targetArticle, newTitle, newContent);
 
         printMessage("게시글이 수정되었습니다.");
     }

@@ -12,7 +12,9 @@ import org.junit.jupiter.api.Test;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -379,6 +381,104 @@ public class ArticleControllerTest {
         assertThat(rs)
                 .contains("로드에 실패했습니다.")
                 .contains("오류 메세지: ");
+    }
+
+    @Test
+    @DisplayName("id 기준 정렬")
+    void t26_sort_id() {
+        String rs = AppTestRunner.run("""
+    write
+    3
+    3
+    write
+    2
+    2
+    write
+    1
+    1
+    sort id
+    """);
+        List<String> sortTable = Arrays
+                .stream(rs.split("\n"))
+                .map(String::trim)
+                .map(line -> line.substring(0, line.indexOf("|", line.indexOf("|") + 1) + 1))
+                .filter(line -> line.matches("^\\d+ \\| \\d+ \\|"))
+                .collect(Collectors.toList());
+
+
+        assertThat(sortTable).containsExactly("3 | 1 |", "2 | 2 |", "1 | 3 |");
+    }
+
+    @Test
+    @DisplayName("title 기준 정렬")
+    void t27_sort_title() {
+        String rs = AppTestRunner.run("""
+    write
+    3
+    3
+    write
+    2
+    2
+    write
+    1
+    1
+    sort title
+    """);
+
+        List<String> sortTable = Arrays
+                .stream(rs.split("\n"))
+                .map(String::trim)
+                .map(line -> line.substring(0, line.indexOf("|", line.indexOf("|") + 1) + 1))
+                .filter(line -> line.matches("^\\d+ \\| \\d+ \\|"))
+                .collect(Collectors.toList());
+
+
+        assertThat(sortTable).containsExactly("1 | 3 |", "2 | 2 |", "3 | 1 |");
+    }
+
+    @Test
+    @DisplayName("regDate 기준 정렬")
+    void t28_sort_regDate() {
+        String rs = AppTestRunner.run("""
+    write
+    3
+    3
+    write
+    2
+    2
+    write
+    1
+    1
+    sort regDate
+    """);
+
+        List<String> sortTable = Arrays
+                .stream(rs.split("\n"))
+                .map(String::trim)
+                .map(line -> line.substring(0, line.indexOf("|", line.indexOf("|") + 1) + 1))
+                .filter(line -> line.matches("^\\d+ \\| \\d+ \\|"))
+                .collect(Collectors.toList());
+
+
+        assertThat(sortTable).containsExactly("3 | 1 |", "2 | 2 |", "1 | 3 |");
+    }
+
+    @Test
+    @DisplayName("sort - 잘못된 정렬 기준")
+    void t29_exception_sort_type() {
+        String rs = AppTestRunner.run("""
+                sort regDat
+                """);
+        assertThat(rs).contains("허용되지 않은 정렬 기준입니다. (id, title, regDate, count)");
+    }
+
+    @Test
+    @DisplayName("sort - 잘못된 정렬 순서")
+    void t29_exception_sort_order() {
+        String rs = AppTestRunner.run("""
+                sort regDate id
+                """);
+        assertThat(rs).contains("정렬 순서는 'asc' 또는 'desc' 만 가능합니다.");
     }
 }
 
