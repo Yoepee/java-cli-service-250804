@@ -9,6 +9,8 @@ build/
 .idea/jarRepositories.xml
 .idea/compiler.xml
 .idea/libraries/
+.idea/material_theme_project_new.xml
+.idea/.name
 *.iws
 *.iml
 *.ipr
@@ -41,5 +43,6 @@ bin/
 ### Mac OS ###
 .DS_Store
 
-db
-testDb
+### db ###
+db/
+testDb/

@@ -9,7 +9,7 @@ import java.util.Comparator;
 import java.util.List;
 
 public class ArticleService {
-    private ArticleRepository repository;
+    private final ArticleRepository repository;
 
     public ArticleService() {
         repository = AppContext.articleRepository;

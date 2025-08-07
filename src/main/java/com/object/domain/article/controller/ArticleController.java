@@ -141,7 +141,7 @@ public class ArticleController {
         System.out.println("제목: " + article.getTitle());
         System.out.println("내용: " + article.getContent());
         System.out.println("등록일: " + article.getRegDate());
-        System.out.println("조회수: " + article.getCount());
+        System.out.println("조회수: " + article.getCount() + "\n");
     }
 
     public void saveArticles() {
@@ -149,7 +149,7 @@ public class ArticleController {
             articleService.save();
             printMessage("저장되었습니다.");
         } catch (IOException e) {
-            handleIOException("저장");
+            handleIOException("저장", e);
         }
     }
 
@@ -158,15 +158,16 @@ public class ArticleController {
             articleService.load();
             printMessage("데이터가 로드되었습니다.");
         } catch (IOException e) {
-            handleIOException("데이터 로드");
+            handleIOException("데이터 로드", e);
         }
+    }
+
+    private void handleIOException(String action, IOException e) {
+        System.out.println("=> %s에 실패했습니다.".formatted(action));
+        System.out.println("오류 메세지: " + e.getMessage() + "\n");
     }
 
     private void printMessage(String message) {
         System.out.println("=> %s\n".formatted(message));
-    }
-
-    private void handleIOException(String action) {
-        System.out.println("=> %s에 실패했습니다.\n".formatted(action));
     }
 }

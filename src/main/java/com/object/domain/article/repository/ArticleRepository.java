@@ -46,7 +46,6 @@ public class ArticleRepository {
             article.setRegDate(now.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
             articles.add(article);
         }
-
         return article;
     }
 
@@ -97,5 +96,9 @@ public class ArticleRepository {
         //마지막 id 가져오기
         if(articles.isEmpty()) lastId = 0;
         else lastId = articles.get(0).getId();
+    }
+
+    public int getLastId(){
+        return lastId;
     }
 }
