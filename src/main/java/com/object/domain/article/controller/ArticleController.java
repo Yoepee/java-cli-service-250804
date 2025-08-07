@@ -24,7 +24,7 @@ public class ArticleController {
         String title = scanner.nextLine();
 
         if (title.isEmpty()) {
-            printMessage("!!!제목을 입력해 주세요!!!");
+            printMessage("제목을 입력해 주세요.");
             return;
         }
 
@@ -32,7 +32,7 @@ public class ArticleController {
         String content = scanner.nextLine();
 
         if (content.isEmpty()) {
-            printMessage("!!!내용을 입력해 주세요!!!");
+            printMessage("내용을 입력해 주세요.");
             return;
         }
 
@@ -127,13 +127,13 @@ public class ArticleController {
     public void showDetail(Rq rq) {
         int id = rq.getParamAsInt(0, -1);
         if (id == -1) {
-            printMessage("유효하지 않은 id 입니다.");
+            printMessage("다시 입력해주세요. (형식: detail [id])");
             return;
         }
 
         Article article = articleService.findAndIncreaseViewCount(id);
         if (article == null) {
-            printMessage("해당 게시글이 존재하지 않습니다.");
+            printMessage("%d번 게시글이 존재하지 않습니다.".formatted(id));
             return;
         }
 

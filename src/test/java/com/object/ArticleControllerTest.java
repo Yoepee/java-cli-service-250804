@@ -133,7 +133,7 @@ public class ArticleControllerTest {
             """);
 
         AssertionsForClassTypes.assertThat(rs)
-                .contains("=> 해당 게시글이 존재하지 않습니다.")
+                .contains("=> 999번 게시글이 존재하지 않습니다.")
                 .doesNotContain("조회수:");
     }
 
@@ -293,7 +293,7 @@ public class ArticleControllerTest {
 
     @Test
     @DisplayName("삭제 - 잘못된 id")
-    void t19_delete_idError() {
+    void t19_delete_exception_test1() {
         String rs = AppTestRunner.run("""
                 delete ~~~
                 """);
@@ -316,7 +316,7 @@ public class ArticleControllerTest {
                 write
                 
                 """);
-        AssertionsForClassTypes.assertThat(rs).contains("=> !!!제목을 입력해 주세요!!!");
+        AssertionsForClassTypes.assertThat(rs).contains("=> 제목을 입력해 주세요.");
     }
 
     @Test
@@ -327,6 +327,18 @@ public class ArticleControllerTest {
                 자바 공부
                 
                 """);
-        AssertionsForClassTypes.assertThat(rs).contains("=> !!!내용을 입력해 주세요!!!");
+        AssertionsForClassTypes.assertThat(rs).contains("=> 내용을 입력해 주세요.");
+    }
+
+    @Test
+    @DisplayName("게시글 상세보기 - 잘못된 id")
+    public void t23_view_exception_test1() {
+        String rs = AppTestRunner.run("""
+            detail ~~~
+            """);
+
+        AssertionsForClassTypes.assertThat(rs)
+                .contains("=> 다시 입력해주세요. (형식: detail [id])")
+                .doesNotContain("조회수:");
     }
 }
