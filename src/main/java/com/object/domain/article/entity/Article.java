@@ -13,7 +13,7 @@ public class Article {
     String title;
     String content;
     String regDate;
-    int viewCount = 0;
+    int count = 0;
 
     public Article(String title, String content) {
         this.title = title;
@@ -23,5 +23,9 @@ public class Article {
     @JsonIgnore
     public boolean isNew() {
         return id == 0;
+    }
+
+    public void increaseCount() {
+        this.count++;
     }
 }

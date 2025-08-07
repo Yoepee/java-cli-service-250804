@@ -21,9 +21,9 @@ public class ArticleRepository {
     int lastId;
 
     public ArticleRepository() {
-        this.filePath = AppContext.filePath;
-        this.articles = new ArrayList<>();
-        this.lastId = 0;
+        filePath = AppContext.filePath;
+        articles = new ArrayList<>();
+        lastId = 0;
     }
 
     public Article getArticleById(int id) {
@@ -37,18 +37,18 @@ public class ArticleRepository {
         articles.remove(article);
     }
 
-    public void saveArticle(Article article) {
+    public Article saveArticle(Article article) {
         if (article.isNew()) {
             article.setId(++lastId);
             LocalDateTime now = LocalDateTime.now();
             article.setRegDate(now.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
             articles.add(article);
         }
-
+        return article;
     }
 
     public List<Article> getArticles(String keyword) {
-        if (keyword == null || keyword.isEmpty()) {
+        if (keyword == null || keyword.isBlank()) {
             return articles;
         }
 
@@ -61,7 +61,6 @@ public class ArticleRepository {
 
     //파일로 저장
     public void save() throws IOException {
-
         //폴더 확인해서 없으면 생성
         File file = new File(filePath);
         File parentDir = file.getParentFile();

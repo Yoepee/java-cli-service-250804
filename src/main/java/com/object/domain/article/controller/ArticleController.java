@@ -8,26 +8,28 @@ import com.object.domain.article.service.ArticleService;
 import java.io.IOException;
 import java.util.List;
 import java.util.Scanner;
+import java.util.Set;
 
 public class ArticleController {
     private final Scanner scanner;
     private final ArticleService articleService;
+    private final Set<String> allowedSortTypes = Set.of("id", "title", "regDate", "count");
     public ArticleController() {
         scanner = AppContext.scanner;
-        this.articleService = AppContext.articleService;
+        articleService = AppContext.articleService;
     }
 
     public void writeArticle(){
         System.out.print("제목: ");
         String title = scanner.nextLine();
 
-        System.out.print("내용: ");
-        String content = scanner.nextLine();
-
         if (title.isEmpty()) {
             printMessage("!!!제목을 입력해 주세요!!!");
             return;
         }
+
+        System.out.print("내용: ");
+        String content = scanner.nextLine();
 
         if (content.isEmpty()) {
             printMessage("!!!내용을 입력해 주세요!!!");
@@ -45,19 +47,16 @@ public class ArticleController {
             return;
         }
 
-
         Article targetArticle = articleService.findById(id);
         if(targetArticle == null) {
             printMessage(String.format("%d번 게시글이 존재하지 않습니다.", id));
             return;
         }
 
-
         System.out.printf("제목 (현재: %s): ", targetArticle.getTitle());
         String newTitle = scanner.nextLine().trim();
         System.out.printf("내용 (현재: %s): ", targetArticle.getContent());
         String newContent = scanner.nextLine().trim();
-
 
         articleService.update(targetArticle, newTitle, newContent);
 
@@ -80,19 +79,47 @@ public class ArticleController {
     }
 
     public void listArticles(Rq rq) {
-        String keyword = rq.getParam(0, "");
+        printArticle(articleService.getArticles());
+    }
 
-        List<Article> articles = articleService.getArticles(keyword);
+    public void searchArticles(Rq rq) {
+        String keyword = rq.getParam(0, "");
+        if (keyword.isEmpty()) {
+            printMessage("검색 키워드를 입력해주세요.");
+            return;
+        }
+
+        printArticle(articleService.getArticles(keyword));
+    }
+
+    public void sortArticles(Rq rq) {
+        String sortType = rq.getParam(0, "id"); // 기본값: id
+        String sortOrder = rq.getParam(1, "desc");    // 기본값: desc
+
+        if (!allowedSortTypes.contains(sortType)) {
+            printMessage("허용되지 않은 정렬 기준입니다. (id, title, regDate, count)");
+            return;
+        }
+
+        if (!sortOrder.equals("asc") && !sortOrder.equals("desc")) {
+            printMessage("정렬 순서는 'asc' 또는 'desc' 만 가능합니다.");
+            return;
+        }
+
+        printArticle(articleService.getSortedArticles(sortType, sortOrder));
+    }
+
+    public void printArticle(List<Article> articles) {
         if (articles.isEmpty()) {
             printMessage("검색 결과가 없습니다.");
             return;
         }
 
-        System.out.println("번호 | 제목       | 등록일");
-        System.out.println("-------------------------");
+        System.out.println("번호 | 제목       | 등록일          | 조회수");
+        System.out.println("--------------------------------------------");
         for (int i = articles.size() - 1; i >= 0; i--) {
             Article article = articles.get(i);
-            System.out.printf("%d | %s | %s \n", article.getId(), article.getTitle(), article.getRegDate());
+            System.out.printf("%d | %s | %s | %d\n", article.getId(), article.getTitle(), article.getRegDate(), article.getCount());
         }
         System.out.println();
     }
@@ -104,17 +131,17 @@ public class ArticleController {
             return;
         }
 
-        Article articleEntity = articleService.findById(id);
-        if (articleEntity == null) {
+        Article article = articleService.findAndIncreaseViewCount(id);
+        if (article == null) {
             printMessage("해당 게시글이 존재하지 않습니다.");
             return;
         }
 
-        System.out.println("번호: " + articleEntity.getId());
-        System.out.println("제목: " + articleEntity.getTitle());
-        System.out.println("내용: " + articleEntity.getContent());
-        System.out.println("등록일: " + articleEntity.getRegDate());
-        System.out.println("조회수: " + articleEntity.getViewCount());
+        System.out.println("번호: " + article.getId());
+        System.out.println("제목: " + article.getTitle());
+        System.out.println("내용: " + article.getContent());
+        System.out.println("등록일: " + article.getRegDate());
+        System.out.println("조회수: " + article.getCount() + "\n");
     }
 
     public void saveArticles() {
@@ -136,10 +163,10 @@ public class ArticleController {
     }
 
     private void printMessage(String message) {
-        System.out.println("=> " + message + "\n");
+        System.out.println("=> %s\n".formatted(message));
     }
 
     private void handleIOException(String action) {
-        System.out.printf("=> %s에 실패했습니다.\n\n", action);
+        System.out.println("=> %s에 실패했습니다.\n".formatted(action));
     }
 }
