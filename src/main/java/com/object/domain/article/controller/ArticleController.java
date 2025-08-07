@@ -78,7 +78,7 @@ public class ArticleController {
         }
     }
 
-    public void listArticles(Rq rq) {
+    public void listArticles() {
         printArticle(articleService.getArticles());
     }
 

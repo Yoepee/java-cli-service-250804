@@ -24,7 +24,7 @@ public class App {
                     return;
                 }
                 case "write" -> articleController.writeArticle();
-                case "list" -> articleController.listArticles(rq);
+                case "list" -> articleController.listArticles();
                 case "search" -> articleController.searchArticles(rq);
                 case "detail" -> articleController.showDetail(rq);
                 case "update" -> articleController.updateArticle(rq);
