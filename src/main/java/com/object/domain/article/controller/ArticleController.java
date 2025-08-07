@@ -66,7 +66,7 @@ public class ArticleController {
     public void deleteArticle(Rq rq){
         int id = rq.getParamAsInt(0, -1);
         if (id == -1) {
-            System.out.println("유효하지 않은 id 입니다.");
+            printMessage("유효하지 않은 id 입니다.");
             return;
         }
 

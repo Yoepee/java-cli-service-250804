@@ -16,7 +16,6 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class ArticleControllerTest {
-
     String filePath = "testDb/fileTest.json";
 
     /**
@@ -290,6 +289,5 @@ public class ArticleControllerTest {
         int lastId = AppContext.articleRepository.getLastId();
         AssertionsForClassTypes.assertThat(lastId).isEqualTo(2);
     }
-
 }
 

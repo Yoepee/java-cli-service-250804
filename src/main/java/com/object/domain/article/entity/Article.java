@@ -25,6 +25,7 @@ public class Article {
         return id == 0;
     }
 
+    @JsonIgnore
     public void increaseCount() {
         this.count++;
     }
