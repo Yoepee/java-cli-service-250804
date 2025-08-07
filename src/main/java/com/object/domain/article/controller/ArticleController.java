@@ -97,12 +97,12 @@ public class ArticleController {
         String sortOrder = rq.getParam(1, "desc");    // 기본값: desc
 
         if (!allowedSortTypes.contains(sortType)) {
-            System.out.println("허용되지 않은 정렬 기준입니다. (id, title, regDate, count)");
+            printMessage("허용되지 않은 정렬 기준입니다. (id, title, regDate, count)");
             return;
         }
 
         if (!sortOrder.equals("asc") && !sortOrder.equals("desc")) {
-            System.out.println("정렬 순서는 'asc' 또는 'desc' 만 가능합니다.");
+            printMessage("정렬 순서는 'asc' 또는 'desc' 만 가능합니다.");
             return;
         }
 
@@ -111,7 +111,7 @@ public class ArticleController {
 
     public void printArticle(List<Article> articles) {
         if (articles.isEmpty()) {
-            System.out.println("검색 결과가 없습니다.");
+            printMessage("검색 결과가 없습니다.");
             return;
         }
 
@@ -127,13 +127,13 @@ public class ArticleController {
     public void showDetail(Rq rq) {
         int id = rq.getParamAsInt(0, -1);
         if (id == -1) {
-            System.out.println("유효하지 않은 id 입니다.");
+            printMessage("유효하지 않은 id 입니다.");
             return;
         }
 
         Article article = articleService.findAndIncreaseViewCount(id);
         if (article == null) {
-            System.out.println("해당 게시글이 존재하지 않습니다.");
+            printMessage("해당 게시글이 존재하지 않습니다.");
             return;
         }
 
@@ -141,6 +141,7 @@ public class ArticleController {
         System.out.println("제목: " + article.getTitle());
         System.out.println("내용: " + article.getContent());
         System.out.println("등록일: " + article.getRegDate());
+        System.out.println("조회수: " + article.getCount());
     }
 
     public void saveArticles() {
