@@ -49,7 +49,7 @@ public class ArticleController {
 
         Article targetArticle = articleService.findById(id);
         if(targetArticle == null) {
-            printMessage(String.format("%d번 게시글이 존재하지 않습니다.", id));
+            printMessage("%d번 게시글이 존재하지 않습니다.".formatted(id));
             return;
         }
 
@@ -66,7 +66,7 @@ public class ArticleController {
     public void deleteArticle(Rq rq){
         int id = rq.getParamAsInt(0, -1);
         if (id == -1) {
-            printMessage("유효하지 않은 id 입니다.");
+            printMessage("다시 입력해주세요. (형식: delete [id])");
             return;
         }
 
@@ -74,7 +74,7 @@ public class ArticleController {
         if (isDeleted) {
             printMessage("게시글이 삭제되었습니다.");
         } else {
-            printMessage("게시글이 존재하지 않습니다.");
+            printMessage("%d번 게시글이 존재하지 않습니다.".formatted(id));
         }
     }
 

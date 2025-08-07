@@ -18,6 +18,22 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class ArticleControllerTest {
     String filePath = "testDb/fileTest.json";
 
+    @BeforeEach
+    void clearFileBefore() {
+        File file = new File(filePath);
+        if(file.exists()) {
+            file.delete();
+        }
+    }
+
+    @AfterEach
+    void clearFileAfter() {
+        File file = new File(filePath);
+        if(file.exists()) {
+            file.delete();
+        }
+    }
+
     /**
      * List, Delete Test
      */
@@ -166,22 +182,6 @@ public class ArticleControllerTest {
                 .contains("검색 키워드를 입력해주세요.");
     }
 
-    @BeforeEach
-    void clearFileBefore() {
-        File file = new File(filePath);
-        if(file.exists()) {
-            file.delete();
-        }
-    }
-
-    @AfterEach
-    void clearFileAfter() {
-        File file = new File(filePath);
-        if(file.exists()) {
-            file.delete();
-        }
-    }
-
     /**
      * update, save, load Test
      */
@@ -289,5 +289,44 @@ public class ArticleControllerTest {
 
         int lastId = AppContext.articleRepository.getLastId();
         AssertionsForClassTypes.assertThat(lastId).isEqualTo(2);
+    }
+
+    @Test
+    @DisplayName("삭제 - 잘못된 id")
+    void t19_delete_idError() {
+        String rs = AppTestRunner.run("""
+                delete ~~~
+                """);
+        AssertionsForClassTypes.assertThat(rs).contains("=> 다시 입력해주세요. (형식: delete [id])");
+    }
+
+    @Test
+    @DisplayName("삭제 - 존재하지않는 id")
+    void t20_delete_id_not_exist() {
+        String rs = AppTestRunner.run("""
+                delete 999
+                """);
+        AssertionsForClassTypes.assertThat(rs).contains("=> 999번 게시글이 존재하지 않습니다.");
+    }
+
+    @Test
+    @DisplayName("작성 - 빈 제목")
+    void t21_write_blank_title() {
+        String rs = AppTestRunner.run("""
+                write
+                
+                """);
+        AssertionsForClassTypes.assertThat(rs).contains("=> !!!제목을 입력해 주세요!!!");
+    }
+
+    @Test
+    @DisplayName("작성 - 빈 내용")
+    void t22_write_blank_content() {
+        String rs = AppTestRunner.run("""
+                write
+                자바 공부
+                
+                """);
+        AssertionsForClassTypes.assertThat(rs).contains("=> !!!내용을 입력해 주세요!!!");
     }
 }
