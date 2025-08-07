@@ -76,10 +76,10 @@
 ┃ ┣ 📂system # 시스템 명령어 처리 (시작, 종료 등)
 ┃ ┃ ┗ 📂controller # 시스템 명령어 입력 처리
 ┃ ┣ 📂standard.util # 테스트용 Scanner, 콘솔 출력 유틸
-┃ ┣ 📜App.java # 메인 루프 및 명령어 실행 로직
-┃ ┣ 📜AppContext.java # Controller/Service/Repo 의존성 관리
-┃ ┣ 📜Main.java # 프로그램 실행 진입점 (new App().run())
-┃ ┗ 📜Rq.java # 명령어 파싱 및 파라미터 분리 객체
+┃ ┣ 📄App.java # 메인 루프 및 명령어 실행 로직
+┃ ┣ 📄AppContext.java # Controller/Service/Repo 의존성 관리
+┃ ┣ 📄Main.java # 프로그램 실행 진입점 (new App().run())
+┃ ┗ 📄Rq.java # 명령어 파싱 및 파라미터 분리 객체
 ┣ 📂test # JUnit 기반 테스트 코드
 ┗ 📜README.md # 프로젝트 설명 문서
 ```
