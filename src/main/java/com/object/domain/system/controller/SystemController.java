@@ -8,7 +8,7 @@ import java.util.Scanner;
 public class SystemController {
     private static Scanner scanner;
     public SystemController() {
-        this.scanner = AppContext.scanner;
+        scanner = AppContext.scanner;
     }
     public void start(){
         System.out.println("프로그램을 시작합니다.");

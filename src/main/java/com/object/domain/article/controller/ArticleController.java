@@ -141,7 +141,7 @@ public class ArticleController {
         System.out.println("제목: " + article.getTitle());
         System.out.println("내용: " + article.getContent());
         System.out.println("등록일: " + article.getRegDate());
-        System.out.println("조회수: " + article.getCount());
+        System.out.println("조회수: " + article.getCount() + "\n");
     }
 
     public void saveArticles() {
