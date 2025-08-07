@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -339,6 +340,45 @@ public class ArticleControllerTest {
         AssertionsForClassTypes.assertThat(rs)
                 .contains("=> 다시 입력해주세요. (형식: detail [id])")
                 .doesNotContain("조회수:");
+    }
+
+    @Test
+    @DisplayName("저장 - 폴더에 작성 시도")
+    void t24_save_exception_test1() {
+
+        String wrongFilePath = "testDb/WrongFile";
+        File dir = new File(wrongFilePath);
+        dir.mkdirs();
+
+        String rs = AppTestRunner.run("""
+                write
+                테스트 제목1
+                테스트 내용1
+                save
+                """, wrongFilePath);
+
+        assertThat(rs)
+                .contains("저장에 실패했습니다.")
+                .contains("오류 메세지: ");
+
+        if (dir.exists()) {
+            dir.delete();
+        }
+    }
+
+
+    @Test
+    @DisplayName("로드 - 손상된 JSON 파일 읽기")
+    void t25_load_exception_test1() throws IOException {
+        File file = new File(filePath);
+        file.getParentFile().mkdirs();
+        Files.writeString(file.toPath(), "{ this is not valid json ]");
+
+        String rs = AppTestRunner.run("", filePath);
+
+        assertThat(rs)
+                .contains("로드에 실패했습니다.")
+                .contains("오류 메세지: ");
     }
 }
 
