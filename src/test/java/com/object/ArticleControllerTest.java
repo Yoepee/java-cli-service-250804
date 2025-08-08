@@ -474,7 +474,7 @@ public class ArticleControllerTest {
 
     @Test
     @DisplayName("sort - 잘못된 정렬 순서")
-    void t29_exception_sort_order() {
+    void t30_exception_sort_order() {
         String rs = AppTestRunner.run("""
                 sort regDate id
                 """);
